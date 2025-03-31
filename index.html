@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Content Inside Container</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .typewriter {
+            margin-bottom: 30px;
+        }
+
+        #greeting {
+            color: white;
+            font-size: 1.8em;
+            border-right: 2px solid white;
+            width: max-content;
+            white-space: nowrap;
+            overflow: hidden;
+            margin: 0;
+            padding-right: 5px;
+        }
+
+        .container {
+            background-color: whitesmoke;
+            width: 400px;
+            min-height: 150px;
+            border: 2px solid white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 12px 20px;
+            cursor: pointer;
+            border: 1px solid black;
+            background-color: lightblue;
+            color: black;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        #button2 {
+            background-color: orange;
+        }
+
+        #button1:hover {
+            background-color: black;
+            color: white;
+        }
+
+        #button2:hover {
+            background-color: red;
+            color: white;
+        }
+
+        #questionText {
+            font-size: 1.2em;
+            text-align: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="typewriter">
+        <h1 id="greeting"></h1>
+    </div>
+
+    <div class="container">
+        <p id="questionText">I have made this website for you</p>
+        <div class="button-container">
+            <button id="button1">Aww, so nice of you</button>
+            <button id="button2">what's on your mind</button>
+        </div>
+    </div>
+
+    <script>
+        const questionText = document.getElementById('questionText');
+        const button1 = document.getElementById('button1');
+        const button2 = document.getElementById('button2');
+
+        const questions = {
+            start: {
+                question: "I have made this Website for you..",
+                button1: { text: "Really", next: "goodResponse" },
+                button2: { text: "I am shocked", next: "notGoodResponse" }
+            },
+            goodResponse: {
+                question: "Yeah.. Its for my cutipie...",
+                button1: { text: "Aww", next: "shareDay" },
+                button2: { text: "Don't make me blush..", next: "endGood" }
+            },
+            notGoodResponse: {
+                question: "well..Mughe kuch Kehna tha aapse",
+                button1: { text: "kya kehna tha", next: "tiredResponse" },
+                button2: { text: "say it", next: "badDayResponse" }
+            },
+            tiredResponse: {
+                question: "I love you babe..",
+                button1: { text: "I love you too babe", next: "start" },
+                button2: { text: "Hatt pagl..", next: "start" }
+            },
+            badDayResponse: {
+                question: "I love you babe..,I miss you",
+                button1: { text: "Love you too babe", next: "start" },
+                button2: { text: "Miss you too", next: "start" }
+            },
+            shareDay: {
+                question: "I love you Babe..",
+                button1: { text: "Love you too babe", next: "start" },
+                button2: { text: "Love you more", next: "start" }
+            },
+            endGood: {
+                question: "I love you babe..,I miss you",
+                button1: { text: "love you too babe", next: "start" },
+                button2: { text: "Miss you too", next: "start" }
+            }
+        };
+
+        let currentQuestion = 'start';
+
+        function updateContent(questionId) {
+            const state = questions[questionId];
+            questionText.textContent = state.question;
+            button1.textContent = state.button1.text;
+            button2.textContent = state.button2.text;
+        }
+
+        button1.addEventListener('click', () => {
+            currentQuestion = questions[currentQuestion].button1.next;
+            updateContent(currentQuestion);
+        });
+
+        button2.addEventListener('click', () => {
+            currentQuestion = questions[currentQuestion].button2.next;
+            updateContent(currentQuestion);
+        });
+
+        const greeting = document.getElementById('greeting');
+        const message = 'Hello! Divya';
+        let i = 0;
+
+        function typeWriter() {
+            if (i < message.length) {
+                greeting.textContent += message.charAt(i);
+                i++;
+                setTimeout(typeWriter, 200);
+            }
+        }
+
+        window.onload = () => {
+            typeWriter();
+            updateContent(currentQuestion);
+        };
+    </script>
+</body>
+</html>
